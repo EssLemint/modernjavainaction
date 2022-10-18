@@ -1,13 +1,9 @@
 package com.study.cp2;
 
 import lombok.extern.slf4j.Slf4j;
-import lombok.val;
-import org.springframework.util.comparator.ComparableComparator;
-import org.springframework.util.comparator.Comparators;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
 
 import static com.study.cp2.Color.GREEN;
