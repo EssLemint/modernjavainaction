@@ -2,9 +2,7 @@ package com.study.cp2.check;
 
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 @Slf4j
 public class GetMember {
@@ -20,9 +18,9 @@ public class GetMember {
   }
 
   public static void main(String[] args) {
-    List<Member> memberList = Arrays.asList(new Member(10, "jack", Gender.MEN)
+    List<Member> memberList = Arrays.asList(new Member(147, "jack", Gender.MEN)
         , new Member(20, "emma", Gender.WOMEN)
-        , new Member(30, "linx", Gender.NONE));
+        , new Member(3, "linx", Gender.NONE));
 
     //1. 나이 20이상
     List<Member> checkByAge = filterMembers(memberList, new FilterMembers.CheckMemberByAge());
@@ -41,5 +39,10 @@ public class GetMember {
 
     //익명 로직 람다화
     List<Member> checkByGenderRamda = filterMembers(memberList, member -> Gender.NONE.equals(member.getGender()));
+
+    memberList.sort(Comparator.comparingInt(Member::getAge).thenComparing(Member::getName));
+    for (Member member : memberList) {
+      log.info("member = {}", member);
+    }
   }
 }
