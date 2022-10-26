@@ -43,11 +43,12 @@ public class Collector {
     Map<Type, List<Dish>> dishesType = dishes.stream().collect(Collectors.groupingBy(Dish::getType));
     log.info("dishesType = {}", dishesType);
 
-    Map<CaloricLevel, List<Dish>> dishByCaloricLevel = dishes.stream().collect(Collectors.groupingBy(dish -> {
-      if (dish.getCalories() <= 400) return CaloricLevel.DIET;
-      else if (dish.getCalories() <= 700) return CaloricLevel.NORMAL;
-      else return CaloricLevel.FAT;
-    }));
+    Map<CaloricLevel, List<Dish>> dishByCaloricLevel = dishes.stream().collect(
+        Collectors.groupingBy(dish -> {
+          if (dish.getCalories() <= 400) return CaloricLevel.DIET;
+          else if (dish.getCalories() <= 700) return CaloricLevel.NORMAL;
+          else return CaloricLevel.FAT;
+        }));
     log.info("dishByCaloricLevel = {}", dishByCaloricLevel);
 
     //500 칼로리 이상 FISH Type missing
