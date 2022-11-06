@@ -10,6 +10,13 @@ import java.util.concurrent.*;
 @Slf4j
 public class Asys {
 
+  private final List<Shop> shops = Arrays.asList(
+      new Shop("BestPrice"),
+      new Shop("LetsSaveBig"),
+      new Shop("MyFavoriteShop"),
+      new Shop("BuyItAll"),
+      new Shop("ShopEasy"));
+
   public static void main(String[] args) {
     /**
      * CompletableFuture, 리액티브 프로그래밍 API 제공
@@ -66,17 +73,26 @@ public class Asys {
     log.info("findPrices = {}", shop.findPrices("shop2", shops));
     long duration = ((System.nanoTime() - start) / 1_000_000);
     log.info("Done in = {}", duration);
-
-    //스레드 풀 조절 100이하로
-    // 제작한 풀은 데몬 스레드를 포함한다.
-    //자바에서 일반 스레드가 실행 중이면 자바 프로그램은 종료되지 않는다. 따라서 이벤트를 한없이 기다리면서 종료되지 않는 일반 스레드가 있으면 문제가 될 수 있다.
-    //다만 데몬 스레드는 자바 프로그램이 종료될 때 강제적으로 종료 된다.
-
-    /**
-     * 병렬화 기법 사용시 참조
-     * I/O가 포함 되지 않은 계산 중심의 동작을 실행할 때는 스트림 인터페이스가 가장 구현하기 간단하며 효율적일 수 있다.
-     * 작업이 I/O을 기다리는 작업을 병렬로 실행 할때는 CompatableFuture가 더 많은 유연성을 제공해준다.
-     * 스트림의 게으른 특성으로실제로 언제 처리할지 예측하기 어려운 문제도 존재한다.
-     * */
   }
+
+  //스레드 풀 조절 100이하로
+  // 제작한 풀은 데몬 스레드를 포함한다.
+  //자바에서 일반 스레드가 실행 중이면 자바 프로그램은 종료되지 않는다.
+  // 따라서 이벤트를 한없이 기다리면서 종료되지 않는 일반 스레드가 있으면 문제가 될 수 있다.
+  //다만 데몬 스레드는 자바 프로그램이 종료될 때 강제적으로 종료 된다.
+
+  private final Executor executor = Executors.newFixedThreadPool(shops.size(), (Runnable r) -> {
+    Thread t = new Thread(r);
+    t.setDaemon(true);
+    return t;
+  });
+  /**
+   * 우리가 만든 풀은 데몬 스레드를 포함한다
+   * 병렬화 기법 사용시 참조
+   * 스트림 병렬화, CompatableFuture 병렬화
+   * I/O가 포함 되지 않은 계산 중심의 동작을 실행할 때는 스트림 인터페이스가 가장 구현하기 간단하며 효율적일 수 있다.
+   * 작업이 I/O을 기다리는 작업을 병렬로 실행 할때는 CompatableFuture가 더 많은 유연성을 제공해준다.
+   * 스트림의 게으른 특성으로실제로 언제 처리할지 예측하기 어려운 문제도 존재한다.
+   * */
+
 }

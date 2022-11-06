@@ -24,15 +24,15 @@ public class Shop {
     }
   }
 
-  public double getPrice(String product) {
-    return calculatePrice(product);
-  }
+//  public double getPrice(String product) {
+//    return calculatePrice(product);
+//  }
 
-  public double calculatePrice(String product) {
-    delay();
-    Random random = new Random();
-    return random.nextDouble() * product.charAt(0) + product.charAt(1);
-  }
+//  public double calculatePrice(String product) {
+//    delay();
+//    Random random = new Random();
+//    return random.nextDouble() * product.charAt(0) + product.charAt(1);
+//  }
 
   public String getName() {
     return name;
@@ -90,6 +90,18 @@ public class Shop {
     //스트림은 게으른 특성이 존재하기에 하나의 파이프라인으로 처리했다면 모든 가격 정보 요청 동작이
     //동기적, 순차적으로 이루어 결과가 된다.
 
+  }
+
+  public String getPrice(String product) {
+    double price = calculatePrice(product);
+    Discount.Code code = Discount.Code.values()[random.nextInt(Discount.Code.values().length)];
+
+    return String.format("%s :%.2f:%%s", name, price, code);
+  }
+
+  private double calculatePrice(String product) {
+    delay();
+    return random.nextDouble() * product.charAt(0) + product.charAt(1);
   }
 
 
