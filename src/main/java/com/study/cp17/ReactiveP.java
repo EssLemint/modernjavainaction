@@ -12,25 +12,25 @@ import java.util.stream.Collectors;
 public class ReactiveP {
 
   public static void main(String[] args) {
-    //getTemperatures("New York").subscribe(new TempSubscriber());
+    getTemperatures("New York").subscribe(new TempSubscriber());
     /**
      * 해다 상태에서는 stackOverFlow()가 발생 어떻게 개선?
      *  {@link TempSubscription} Executor 추가
      * */
 
-    //getCelsiusTemperature("NEW YORK").subscribe(new TempSubscriber());
+    getCelsiusTemperature("NEW YORK").subscribe(new TempSubscriber());
     /**
      * 섭씨 온도 전송 Publisher 생성
      * {@link TempSubscriber}를 Publisher로 구독
      * */
 
-//    Observable<TempInfo> observable = getTemperature("NEW YORK");
-//    observable.blockingSubscribe(new TempObserver());
+    Observable<TempInfo> observable = getTemperature("NEW YORK");
+    observable.blockingSubscribe(new TempObserver());
     /**
      * 뉴욕을 1초마다 온도를 계산 반환해줌
      * */
-    Observable<TempInfo> observable = getCelsiusTemperature("NEW YORK", "CHICAGO", "SAN FRANCISCO");
-    observable.blockingSubscribe(new TempObserver());
+    Observable<TempInfo> observables = getCelsiusTemperature("NEW YORK", "CHICAGO", "SAN FRANCISCO");
+    observables.blockingSubscribe(new TempObserver());
   }
 
   private static Publisher<TempInfo> getTemperatures(String town) {
